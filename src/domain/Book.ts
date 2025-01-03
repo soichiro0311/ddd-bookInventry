@@ -11,4 +11,8 @@ export class Book {
     this._title = title;
     this._price = price;
   }
+
+  isbnCode(): string {
+    return this._isbnCode;
+  }
 }

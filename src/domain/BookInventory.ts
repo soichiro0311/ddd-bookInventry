@@ -1,4 +1,5 @@
 import { Book } from "./Book";
+import { Transaction } from "./Transaction";
 
 export class BookInventory {
   private _book: Book;
@@ -15,7 +16,23 @@ export class BookInventory {
     this._reservationInventory = reservationInventory;
   }
 
-  isInStore(): boolean {
-    return this._inStoreInventory > 0;
+  static new(
+    book: Book,
+    inStoreInventory: number,
+    reservationInventory: number
+  ) {
+    return new BookInventory(
+      book,
+      inStoreInventory,
+      reservationInventory
+    );
+  }
+
+  isbnCode(): string {
+    return this._book.isbnCode();
+  }
+
+  inStoreInventry(): number {
+    return this._inStoreInventory;
   }
 }
