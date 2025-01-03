@@ -4,19 +4,12 @@ import { Transaction } from "../domain/Transaction";
 import { TransactionRepository } from "../domain/TransactionRepository";
 import { myContainer } from "../inversify.config";
 import { TYPES } from "../types";
-import {
-  BookInventoryDto,
-  isInStoreBookDto,
-} from "./dto/BookInventryDto";
+import { isInStoreBookDto } from "./dto/BookInventryDto";
 
 export class BookInventry {
   private bookStoreRepository =
     myContainer.get<BookStoreRepository>(
       TYPES.BookStoreRepository
-    );
-  private transactionRepository =
-    myContainer.get<TransactionRepository>(
-      TYPES.TransactionRepository
     );
 
   async isInStore(isbnCode: string, bookStoreId: string) {
