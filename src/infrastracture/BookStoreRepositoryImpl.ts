@@ -8,6 +8,18 @@ export class BookStoreRepositoryImpl implements BookStoreRepository {
   constructor() {
     this.prisma = new PrismaClient({ log: ["query", "info", "warn", "error"] });
   }
+
+  async findAll(): Promise<BookStore[]> {
+    const allStores = await this.prisma.bookStore.findMany({
+      include: {
+        order: true,
+        transaction: true,
+        bookInventory: true,
+      },
+    });
+    return allStores.map((store) => BookStore.fromRepository(store));
+  }
+
   findById(bookStoreId: string): Promise<BookStore> {
     throw new Error("Method not implemented.");
   }

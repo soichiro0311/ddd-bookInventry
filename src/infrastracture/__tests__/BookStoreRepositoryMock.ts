@@ -4,6 +4,10 @@ import { BookStoreRepository } from "../../domain/interface/BookStoreRepository"
 export class BookStoreRepositoryMock implements BookStoreRepository {
   private store: Map<string, BookStore> = new Map();
 
+  async findAll(): Promise<BookStore[]> {
+    return await Array.from(this.store.values());
+  }
+
   findById(bookStoreId: string): Promise<BookStore> {
     const target = this.store.get(bookStoreId);
     if (target == null) {

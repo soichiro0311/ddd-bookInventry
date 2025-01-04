@@ -17,4 +17,8 @@ export class MaintenanceBookStore {
     const bookStore = BookStore.new(request);
     await this.bookStoreRepository.save(bookStore);
   }
+
+  async allBooks() {
+    return await this.bookStoreRepository.findAll();
+  }
 }

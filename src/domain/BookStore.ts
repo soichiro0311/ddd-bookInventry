@@ -47,6 +47,58 @@ export class BookStore {
     );
   }
 
+  static fromRepository(
+    store: {
+      bookInventory: {
+        createdAt: Date;
+        updatedAt: Date;
+        isbnCode: string;
+        inStoreInventory: number;
+        reservationInventory: number;
+        bookStoreId: string;
+      }[];
+      transaction: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        isbnCode: string;
+        bookStoreId: string;
+        buyCount: number;
+        buyDate: string;
+      }[];
+      order: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        isbnCode: string;
+        bookStoreId: string;
+        status: number;
+        orderBookCount: number;
+        userId: string;
+      }[];
+    } & {
+      id: string;
+      storeName: string;
+      address: string;
+      createdAt: Date;
+      updatedAt: Date;
+    }
+  ): BookStore {
+    const [prefecture, city, streetNumber, blockNumber] = store.address
+      .split(" ")
+      .map((str) => str);
+
+    // TODO: 集約内の他のドメインモデルの再構築
+    return new BookStore(
+      store.id,
+      store.storeName,
+      Address.new(prefecture, city, Number(streetNumber), Number(blockNumber)),
+      [],
+      [],
+      []
+    );
+  }
+
   addInventry(bookInventory: BookInventory) {
     // TODO: bookInventryの構築もドメインモデル内に取り込む
     this._bookInventory.push(bookInventory);

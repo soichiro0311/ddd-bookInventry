@@ -1,5 +1,6 @@
 import supertest from "supertest";
 import { server } from "../../route";
+import { BookStoreDto } from "../../presentation/dto/BookStoreDto";
 
 describe("書店登録ユースケース", () => {
   it("書店を登録できること", async () => {
@@ -13,5 +14,11 @@ describe("書店登録ユースケース", () => {
     });
 
     expect(createResponse.status).toBe(200);
+
+    const allBookStore = (await request.get("/bookStore"))
+      .body as BookStoreDto[];
+    expect(allBookStore).toHaveLength(1);
+    expect(allBookStore[0].bookStoreName).toBe("ヨシロー書店");
+    expect(allBookStore[0].address).toBe("Tokyo Chuou 3 2");
   });
 });
