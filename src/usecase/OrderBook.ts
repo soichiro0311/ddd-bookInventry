@@ -40,9 +40,14 @@ export class OrderBook {
   async placeOrder(
     isbnCode: string,
     orderBookCount: number,
-    bookStoreId: string
+    bookStoreId: string,
+    userId: string
   ) {
-    const order = Order.new(isbnCode, orderBookCount);
+    const order = Order.new(
+      isbnCode,
+      orderBookCount,
+      userId
+    );
     this.orderRepository.save(order);
     const bookStore =
       await this.bookStoreRepository.findById(bookStoreId);

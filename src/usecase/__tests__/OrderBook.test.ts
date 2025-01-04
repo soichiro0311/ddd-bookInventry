@@ -84,15 +84,21 @@ describe("本の取り寄せユースケース", () => {
       );
 
       // execute
+      const userId = "USER1";
       const orderBook = new OrderBook();
-      orderBook.placeOrder(isbnCode, 1, bookStore.id());
+      orderBook.placeOrder(
+        isbnCode,
+        1,
+        bookStore.id(),
+        userId
+      );
 
       // verify
       const updatedBookStore =
         await bookStoreRepository.findById(bookStore.id());
-      expect(updatedBookStore.orderStatus(isbnCode)).toBe(
-        OrderStatus.PLACED
-      );
+      expect(
+        updatedBookStore.orderStatus(isbnCode, userId)
+      ).toBe(OrderStatus.PLACED);
     });
   });
 });

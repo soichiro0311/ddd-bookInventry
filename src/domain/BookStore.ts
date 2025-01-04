@@ -73,7 +73,6 @@ export class BookStore {
           sumBuyCount: number,
           transaction: Transaction
         ): number => {
-          // accは「初期値 or 前回のreturn値」でvalは「配列要素」
           return sumBuyCount + transaction.buyCount();
         },
         0
@@ -94,9 +93,14 @@ export class BookStore {
     this._order.push(order);
   }
 
-  orderStatus(isbnCode: string): OrderStatus {
+  orderStatus(
+    isbnCode: string,
+    userId: string
+  ): OrderStatus {
     const targetOrder = this._order.find(
-      (order) => order.isbnCode() === isbnCode
+      (order) =>
+        order.isbnCode() === isbnCode &&
+        order.userId() === userId
     );
     if (targetOrder == null) {
       // TODO: エラー処理ちゃんとする
