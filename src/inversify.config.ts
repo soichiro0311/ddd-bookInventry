@@ -9,6 +9,9 @@ import { TransactionRepositoryImpl } from "./infrastracture/TransactionRepositor
 import { OrderRepository } from "./domain/interface/OrderRepository";
 import { OrderRepositoryMock } from "./infrastracture/__tests__/OrderRepositoryMock";
 import { OrderRepositoryImpl } from "./infrastracture/OrderRepositoryImpl";
+import { BookRepository } from "./domain/interface/BookRepository";
+import { BookRepositoryMock } from "./infrastracture/__tests__/BookRepositoryMock";
+import { BookRepositoryImpl } from "./infrastracture/BookRepositoryImpl";
 
 const myContainer = new Container();
 
@@ -33,6 +36,10 @@ myContainer
   .to(
     process.env.NODE_ENV === "test" ? OrderRepositoryMock : OrderRepositoryImpl
   )
+  .inSingletonScope();
+myContainer
+  .bind<BookRepository>(TYPES.BookRepository)
+  .to(process.env.NODE_ENV === "test" ? BookRepositoryMock : BookRepositoryImpl)
   .inSingletonScope();
 
 export { myContainer };

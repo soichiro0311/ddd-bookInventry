@@ -1,16 +1,16 @@
 import { BookStore } from "../domain/BookStore";
 import { BookStoreRepository } from "../domain/interface/BookStoreRepository";
-import { Order } from "../domain/Order";
-import { Transaction } from "../domain/Transaction";
-import { TransactionRepository } from "../domain/interface/TransactionRepository";
 import { myContainer } from "../inversify.config";
 import { TYPES } from "../types";
-import { OrderRepository } from "../domain/interface/OrderRepository";
 import { AddBookStoreRequest } from "./dto/request/AddBookStoreRequest";
+import { BookRepository } from "../domain/interface/BookRepository";
 
 export class MaintenanceBookStore {
   private bookStoreRepository = myContainer.get<BookStoreRepository>(
     TYPES.BookStoreRepository
+  );
+  private bookRepository = myContainer.get<BookRepository>(
+    TYPES.BookRepository
   );
 
   async addBookStore(request: AddBookStoreRequest) {
@@ -20,5 +20,13 @@ export class MaintenanceBookStore {
 
   async allBooks() {
     return await this.bookStoreRepository.findAll();
+  }
+
+  async fetchBookInventry() {
+    await this.bookStoreRepository.fetch();
+  }
+
+  async fetchBook() {
+    await this.bookRepository.fetch();
   }
 }

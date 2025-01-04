@@ -34,7 +34,8 @@ model BookStore {
 }
 
 model BookInventory {
-  isbnCode String   @db.VarChar(255) @id
+  @@id([isbnCode, bookStoreId])
+  isbnCode String   @db.VarChar(255)
   inStoreInventory     Int
   reservationInventory Int
   bookStore  BookStore @relation(fields: [bookStoreId], references: [id])

@@ -14,3 +14,6 @@ server.use(
 const bookStoreController = new BookController();
 server.post("/bookStore", bookStoreController.addBookStore);
 server.get("/bookStore", bookStoreController.allBookStore);
+
+server.post("/book", bookStoreController.fetchBook);
+server.post("/bookInventory", bookStoreController.fetchBookInventry);

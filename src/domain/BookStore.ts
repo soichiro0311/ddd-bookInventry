@@ -87,13 +87,16 @@ export class BookStore {
     const [prefecture, city, streetNumber, blockNumber] = store.address
       .split(" ")
       .map((str) => str);
+    const bookInventory = store.bookInventory.map((inventory) =>
+      BookInventory.fromRepository(inventory)
+    );
 
     // TODO: 集約内の他のドメインモデルの再構築
     return new BookStore(
       store.id,
       store.storeName,
       Address.new(prefecture, city, Number(streetNumber), Number(blockNumber)),
-      [],
+      bookInventory,
       [],
       []
     );
@@ -111,7 +114,7 @@ export class BookStore {
   name(): string {
     return this._storeName;
   }
-  inventry() {
+  inventory() {
     return this._bookInventory;
   }
 
@@ -134,7 +137,7 @@ export class BookStore {
         return sumBuyCount + transaction.buyCount();
       }, 0);
 
-    return targetIventry.inStoreInventry() - transactionBuyCountSum > 0;
+    return targetIventry.inStoreInventory() - transactionBuyCountSum > 0;
   }
 
   recordTransaction(transaction: Transaction) {

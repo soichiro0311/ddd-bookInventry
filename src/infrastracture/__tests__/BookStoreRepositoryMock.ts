@@ -21,4 +21,8 @@ export class BookStoreRepositoryMock implements BookStoreRepository {
   async save(bookStore: BookStore): Promise<void> {
     await this.store.set(bookStore.id(), bookStore);
   }
+
+  async fetch(): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 }

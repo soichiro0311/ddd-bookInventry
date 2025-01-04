@@ -27,7 +27,7 @@ export const createMockBookStore = (
   const store = BookStore.new(request);
   store.addInventry(
     BookInventory.new(
-      new Book(inventryIsbnCode, "世界一簡単な技術書", 1200),
+      new Book(inventryIsbnCode, "世界一簡単な技術書", 1200).isbnCode(),
       inStoreInventory,
       reservationInventory
     )

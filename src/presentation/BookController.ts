@@ -24,4 +24,16 @@ export class BookController {
       res.status(200).send(dto);
     });
   }
+
+  fetchBookInventry(req: any, res: any) {
+    maintenaceBookStore.fetchBookInventry().then(() => {
+      res.status(200).end();
+    });
+  }
+
+  fetchBook(req: any, res: any) {
+    maintenaceBookStore.fetchBook().then(() => {
+      res.status(200).end();
+    });
+  }
 }
