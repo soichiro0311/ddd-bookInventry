@@ -31,9 +31,7 @@ myContainer
 myContainer
   .bind<OrderRepository>(TYPES.OrderRepository)
   .to(
-    process.env.NODE_ENV === "test"
-      ? OrderRepositoryMock
-      : OrderRepositoryImpl
+    process.env.NODE_ENV === "test" ? OrderRepositoryMock : OrderRepositoryImpl
   )
   .inSingletonScope();
 

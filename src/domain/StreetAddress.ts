@@ -6,4 +6,12 @@ export class StreetAddress {
     this._streetNumber = streetNumber;
     this._blockNumber = blockNumber;
   }
+
+  streetNumber() {
+    return this._streetNumber;
+  }
+
+  blockNumber() {
+    return this._blockNumber;
+  }
 }

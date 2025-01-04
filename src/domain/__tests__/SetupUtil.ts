@@ -1,3 +1,4 @@
+import { AddBookStoreRequest } from "../../usecase/dto/request/AddBookStoreRequest";
 import { Address } from "../Address";
 import { Book } from "../Book";
 import { BookInventory } from "../BookInventory";
@@ -15,17 +16,21 @@ export const createMockBookStore = (
     new StreetAddress(3, 4)
   );
 
-  const inventry = [
+  const request = new AddBookStoreRequest(
+    "ヨシロー書店",
+    "Kanagawa",
+    "Kawasaki",
+    3,
+    4
+  );
+
+  const store = BookStore.new(request);
+  store.addInventry(
     BookInventory.new(
-      new Book(
-        inventryIsbnCode,
-        "世界一簡単な技術書",
-        1200
-      ),
+      new Book(inventryIsbnCode, "世界一簡単な技術書", 1200),
       inStoreInventory,
       reservationInventory
-    ),
-  ];
-
-  return BookStore.new("ヨシロー書店", address, inventry);
+    )
+  );
+  return store;
 };

@@ -28,4 +28,13 @@ describe("依存関係", () => {
 
     await expect(rule).toPassAsync();
   });
+  it("usecaseパッケージがpresentationパッケージに依存していないこと", async () => {
+    const rule = filesOfProject()
+      .inFolder("usecase")
+      .shouldNot()
+      .dependOnFiles()
+      .inFolder("presentation");
+
+    await expect(rule).toPassAsync();
+  });
 });

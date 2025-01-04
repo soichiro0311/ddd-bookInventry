@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "./node_modules/.bin/ts-node ./application/index.ts",
+    "dev": "./node_modules/.bin/ts-node src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "prisma:generate": "./node_modules/.bin/prisma generate",
     "prisma:migrate": "./node_modules/.bin/prisma migrate deploy",
     "prisma:seed": "./node_modules/.bin/prisma db seed",
     "prisma:create-migrate": "prisma migrate dev --name ${0}"
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",

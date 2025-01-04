@@ -8,16 +8,15 @@ import { TYPES } from "../types";
 import { OrderRepository } from "../domain/interface/OrderRepository";
 
 export class OrderBook {
-  private bookStoreRepository =
-    myContainer.get<BookStoreRepository>(
-      TYPES.BookStoreRepository
-    );
-  private transactionRepository =
-    myContainer.get<TransactionRepository>(
-      TYPES.TransactionRepository
-    );
-  private orderRepository =
-    myContainer.get<OrderRepository>(TYPES.OrderRepository);
+  private bookStoreRepository = myContainer.get<BookStoreRepository>(
+    TYPES.BookStoreRepository
+  );
+  private transactionRepository = myContainer.get<TransactionRepository>(
+    TYPES.TransactionRepository
+  );
+  private orderRepository = myContainer.get<OrderRepository>(
+    TYPES.OrderRepository
+  );
 
   async buyBook(
     isbnCode: string,
@@ -25,14 +24,9 @@ export class OrderBook {
     buyDate: string,
     bookStoreId: string
   ) {
-    const transaction = Transaction.new(
-      isbnCode,
-      buyBookCount,
-      buyDate
-    );
+    const transaction = Transaction.new(isbnCode, buyBookCount, buyDate);
     this.transactionRepository.save(transaction);
-    const bookStore =
-      await this.bookStoreRepository.findById(bookStoreId);
+    const bookStore = await this.bookStoreRepository.findById(bookStoreId);
     bookStore.recordTransaction(transaction);
     this.bookStoreRepository.save(bookStore);
   }
@@ -43,14 +37,9 @@ export class OrderBook {
     bookStoreId: string,
     userId: string
   ) {
-    const order = Order.new(
-      isbnCode,
-      orderBookCount,
-      userId
-    );
+    const order = Order.new(isbnCode, orderBookCount, userId);
     this.orderRepository.save(order);
-    const bookStore =
-      await this.bookStoreRepository.findById(bookStoreId);
+    const bookStore = await this.bookStoreRepository.findById(bookStoreId);
     bookStore.recordOrder(order);
     this.bookStoreRepository.save(bookStore);
   }

@@ -1,9 +1,7 @@
 import { BookStore } from "../../domain/BookStore";
 import { BookStoreRepository } from "../../domain/interface/BookStoreRepository";
 
-export class BookStoreRepositoryMock
-  implements BookStoreRepository
-{
+export class BookStoreRepositoryMock implements BookStoreRepository {
   private store: Map<string, BookStore> = new Map();
 
   findById(bookStoreId: string): Promise<BookStore> {
@@ -16,7 +14,7 @@ export class BookStoreRepositoryMock
     });
   }
 
-  save(bookStore: BookStore): void {
-    this.store.set(bookStore.id(), bookStore);
+  async save(bookStore: BookStore): Promise<void> {
+    await this.store.set(bookStore.id(), bookStore);
   }
 }

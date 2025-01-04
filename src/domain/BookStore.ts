@@ -4,6 +4,7 @@ import { Transaction } from "./Transaction";
 import { v4 as uuidv4 } from "../../node_modules/uuid/dist/cjs";
 import { Order } from "./Order";
 import { OrderStatus } from "./OrderStatus";
+import { AddBookStoreRequest } from "../usecase/dto/request/AddBookStoreRequest";
 
 export class BookStore {
   private _id: string;
@@ -29,19 +30,26 @@ export class BookStore {
     this._order = order;
   }
 
-  static new(
-    storeName: string,
-    address: Address,
-    bookInventory: BookInventory[]
-  ) {
+  static new(requestDto: AddBookStoreRequest) {
+    const address = Address.new(
+      requestDto.prefecture,
+      requestDto.city,
+      requestDto.streetNumber,
+      requestDto.blockNumber
+    );
     return new BookStore(
       uuidv4(),
-      storeName,
+      requestDto.bookStoreName,
       address,
-      bookInventory,
+      [],
       [],
       []
     );
+  }
+
+  addInventry(bookInventory: BookInventory) {
+    // TODO: bookInventryの構築もドメインモデル内に取り込む
+    this._bookInventory.push(bookInventory);
   }
 
   id(): string {
@@ -55,6 +63,10 @@ export class BookStore {
     return this._bookInventory;
   }
 
+  address(): string {
+    return this._address.toString();
+  }
+
   isInStore(isbnCode: string): boolean {
     const targetIventry = this._bookInventory.find(
       (inventry) => inventry.isbnCode() === isbnCode
@@ -65,24 +77,12 @@ export class BookStore {
     }
 
     const transactionBuyCountSum = this._transaction
-      .filter(
-        (transaction) => transaction.isbnCode() === isbnCode
-      )
-      .reduce(
-        (
-          sumBuyCount: number,
-          transaction: Transaction
-        ): number => {
-          return sumBuyCount + transaction.buyCount();
-        },
-        0
-      );
+      .filter((transaction) => transaction.isbnCode() === isbnCode)
+      .reduce((sumBuyCount: number, transaction: Transaction): number => {
+        return sumBuyCount + transaction.buyCount();
+      }, 0);
 
-    return (
-      targetIventry.inStoreInventry() -
-        transactionBuyCountSum >
-      0
-    );
+    return targetIventry.inStoreInventry() - transactionBuyCountSum > 0;
   }
 
   recordTransaction(transaction: Transaction) {
@@ -93,14 +93,9 @@ export class BookStore {
     this._order.push(order);
   }
 
-  orderStatus(
-    isbnCode: string,
-    userId: string
-  ): OrderStatus {
+  orderStatus(isbnCode: string, userId: string): OrderStatus {
     const targetOrder = this._order.find(
-      (order) =>
-        order.isbnCode() === isbnCode &&
-        order.userId() === userId
+      (order) => order.isbnCode() === isbnCode && order.userId() === userId
     );
     if (targetOrder == null) {
       // TODO: エラー処理ちゃんとする

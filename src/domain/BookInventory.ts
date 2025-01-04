@@ -20,11 +20,7 @@ export class BookInventory {
     inStoreInventory: number,
     reservationInventory: number
   ) {
-    return new BookInventory(
-      book,
-      inStoreInventory,
-      reservationInventory
-    );
+    return new BookInventory(book, inStoreInventory, reservationInventory);
   }
 
   isbnCode(): string {
