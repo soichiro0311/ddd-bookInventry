@@ -1,5 +1,5 @@
-import { createMockBookStore } from "../../domain/__tests__/SetupUtil";
-import { BookStoreRepository } from "../../domain/BookStoreRepository";
+import { BookStoreRepository } from "../../domain/interface/BookStoreRepository";
+import { OrderStatus } from "../../domain/OrderStatus";
 import { myContainer } from "../../inversify.config";
 import { TYPES } from "../../types";
 import { OrderBook } from "../OrderBook";
@@ -63,6 +63,36 @@ describe("本の販売ユースケース", () => {
       expect(
         updatedBookStore.isInStore(isbnCode)
       ).toBeTruthy();
+    });
+  });
+});
+describe("本の取り寄せユースケース", () => {
+  const bookStoreRepository =
+    myContainer.get<BookStoreRepository>(
+      TYPES.BookStoreRepository
+    );
+
+  describe("取り寄せを行えること", () => {
+    it("特定の書籍の取り寄せを行う", async () => {
+      // setup
+      const isbnCode = "TEST";
+      const bookStore = saveMockBookStore(
+        isbnCode,
+        1,
+        1,
+        bookStoreRepository
+      );
+
+      // execute
+      const orderBook = new OrderBook();
+      orderBook.placeOrder(isbnCode, 1, bookStore.id());
+
+      // verify
+      const updatedBookStore =
+        await bookStoreRepository.findById(bookStore.id());
+      expect(updatedBookStore.orderStatus(isbnCode)).toBe(
+        OrderStatus.PLACED
+      );
     });
   });
 });

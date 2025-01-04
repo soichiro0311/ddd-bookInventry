@@ -1,5 +1,5 @@
 import { BookStore } from "../../domain/BookStore";
-import { BookStoreRepository } from "../../domain/BookStoreRepository";
+import { BookStoreRepository } from "../../domain/interface/BookStoreRepository";
 
 export class BookStoreRepositoryMock
   implements BookStoreRepository

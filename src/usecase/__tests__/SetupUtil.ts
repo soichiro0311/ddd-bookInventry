@@ -1,5 +1,5 @@
 import { createMockBookStore } from "../../domain/__tests__/SetupUtil";
-import { BookStoreRepository } from "../../domain/BookStoreRepository";
+import { BookStoreRepository } from "../../domain/interface/BookStoreRepository";
 
 export const saveMockBookStore = (
   inventryIsbnCode: string,

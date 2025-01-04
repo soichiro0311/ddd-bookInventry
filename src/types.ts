@@ -3,6 +3,7 @@ const TYPES = {
   TransactionRepository: Symbol.for(
     "TransactionRepository"
   ),
+  OrderRepository: Symbol.for("OrderRepository"),
 };
 
 export { TYPES };

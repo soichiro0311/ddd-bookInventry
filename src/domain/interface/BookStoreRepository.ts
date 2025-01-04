@@ -1,4 +1,4 @@
-import { BookStore } from "./BookStore";
+import { BookStore } from "../BookStore";
 
 export interface BookStoreRepository {
   findById(bookStoreId: string): Promise<BookStore>;

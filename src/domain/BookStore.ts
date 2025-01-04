@@ -2,6 +2,8 @@ import { Address } from "./Address";
 import { BookInventory } from "./BookInventory";
 import { Transaction } from "./Transaction";
 import { v4 as uuidv4 } from "../../node_modules/uuid/dist/cjs";
+import { Order } from "./Order";
+import { OrderStatus } from "./OrderStatus";
 
 export class BookStore {
   private _id: string;
@@ -9,19 +11,22 @@ export class BookStore {
   private _address: Address;
   private _bookInventory: BookInventory[];
   private _transaction: Transaction[];
+  private _order: Order[];
 
   constructor(
     id: string,
     storeName: string,
     address: Address,
     bookInventory: BookInventory[],
-    transaction: Transaction[]
+    transaction: Transaction[],
+    order: Order[]
   ) {
     this._id = id;
     this._storeName = storeName;
     this._address = address;
     this._bookInventory = bookInventory;
     this._transaction = transaction;
+    this._order = order;
   }
 
   static new(
@@ -34,6 +39,7 @@ export class BookStore {
       storeName,
       address,
       bookInventory,
+      [],
       []
     );
   }
@@ -82,5 +88,21 @@ export class BookStore {
 
   recordTransaction(transaction: Transaction) {
     this._transaction.push(transaction);
+  }
+
+  recordOrder(order: Order) {
+    this._order.push(order);
+  }
+
+  orderStatus(isbnCode: string): OrderStatus {
+    const targetOrder = this._order.find(
+      (order) => order.isbnCode() === isbnCode
+    );
+    if (targetOrder == null) {
+      // TODO: エラー処理ちゃんとする
+      throw new Error("対象の取り寄せ注文が存在しません");
+    }
+
+    return targetOrder.status();
   }
 }
