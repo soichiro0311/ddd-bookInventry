@@ -1,5 +1,4 @@
 import { Book } from "./Book";
-import { Transaction } from "./Transaction";
 
 export class BookInventory {
   private _book: Book;
