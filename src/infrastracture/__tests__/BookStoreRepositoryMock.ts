@@ -2,6 +2,8 @@ import { BookStore } from "../../domain/BookStore";
 import { BookStoreRepository } from "../../domain/interface/BookStoreRepository";
 import { BookInventoryRepositoryDto } from "../../usecase/dto/response/BookInventryRepositoryDto";
 
+export const dummyInventoryCSVDto: BookInventoryRepositoryDto[] = [];
+
 export class BookStoreRepositoryMock implements BookStoreRepository {
   private store: Map<string, BookStore> = new Map();
 
@@ -28,6 +30,10 @@ export class BookStoreRepositoryMock implements BookStoreRepository {
   }
 
   fetchInventory(): BookInventoryRepositoryDto[] {
-    throw new Error("Method not implemented.");
+    return dummyInventoryCSVDto;
+  }
+
+  clear(): void {
+    this.store.clear();
   }
 }

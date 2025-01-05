@@ -1,10 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { BookStore } from "../domain/BookStore";
 import { BookStoreRepository } from "../domain/interface/BookStoreRepository";
-import * as fs from "fs";
-import { parse } from "csv-parse/sync";
-import { BookInventory } from "../domain/BookInventory";
-import { Book } from "../domain/Book";
 import { BookInventoryRepositoryDto } from "../usecase/dto/response/BookInventryRepositoryDto";
 import { parseCSV } from "./shared/CSVParser";
 
@@ -13,6 +9,10 @@ export class BookStoreRepositoryImpl implements BookStoreRepository {
 
   constructor() {
     this.prisma = new PrismaClient({ log: ["query", "info", "warn", "error"] });
+  }
+
+  clear(): Promise<void> {
+    throw new Error("Method not implemented.");
   }
 
   async findAll(): Promise<BookStore[]> {

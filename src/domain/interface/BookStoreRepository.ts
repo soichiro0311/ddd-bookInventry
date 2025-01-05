@@ -7,4 +7,5 @@ export interface BookStoreRepository {
   save(bookStore: BookStore): Promise<void>;
   fetchInventory(): BookInventoryRepositoryDto[];
   upadateInventory(bookStore: BookStore): Promise<void>;
+  clear(): void;
 }

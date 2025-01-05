@@ -1,6 +1,4 @@
 import { BookRepository } from "../domain/interface/BookRepository";
-import * as fs from "fs";
-import { parse } from "csv-parse/sync";
 import { Book } from "../domain/Book";
 import { PrismaClient } from "@prisma/client";
 import { parseCSV } from "./shared/CSVParser";
@@ -11,6 +9,11 @@ export class BookRepositoryImpl implements BookRepository {
   constructor() {
     this.prisma = new PrismaClient({ log: ["query", "info", "warn", "error"] });
   }
+
+  clear(): void {
+    throw new Error("Method not implemented.");
+  }
+
   async fetch(): Promise<void> {
     const records = parseCSV("book.csv");
 
