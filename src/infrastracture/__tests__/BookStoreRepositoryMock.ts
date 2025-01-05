@@ -1,5 +1,6 @@
 import { BookStore } from "../../domain/BookStore";
 import { BookStoreRepository } from "../../domain/interface/BookStoreRepository";
+import { BookInventoryRepositoryDto } from "../../usecase/dto/response/BookInventryRepositoryDto";
 
 export class BookStoreRepositoryMock implements BookStoreRepository {
   private store: Map<string, BookStore> = new Map();
@@ -22,7 +23,11 @@ export class BookStoreRepositoryMock implements BookStoreRepository {
     await this.store.set(bookStore.id(), bookStore);
   }
 
-  async fetch(): Promise<void> {
+  async upadateInventory(bookStore: BookStore): Promise<void> {
+    this.store.set(bookStore.id(), bookStore);
+  }
+
+  fetchInventory(): BookInventoryRepositoryDto[] {
     throw new Error("Method not implemented.");
   }
 }

@@ -23,19 +23,12 @@ export class BookInventory {
     return new BookInventory(isbnCode, inStoreInventory, reservationInventory);
   }
 
-  static fromRepository(inventory: {
-    createdAt: Date;
-    updatedAt: Date;
-    isbnCode: string;
-    inStoreInventory: number;
-    reservationInventory: number;
-    bookStoreId: string;
-  }): BookInventory {
-    return new BookInventory(
-      inventory.isbnCode,
-      inventory.inStoreInventory,
-      inventory.reservationInventory
-    );
+  static fromRepository(
+    isbnCode: string,
+    inStoreInventory: number,
+    reservationInventory: number
+  ): BookInventory {
+    return new BookInventory(isbnCode, inStoreInventory, reservationInventory);
   }
 
   isbnCode(): string {

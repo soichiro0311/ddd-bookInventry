@@ -88,7 +88,11 @@ export class BookStore {
       .split(" ")
       .map((str) => str);
     const bookInventory = store.bookInventory.map((inventory) =>
-      BookInventory.fromRepository(inventory)
+      BookInventory.fromRepository(
+        inventory.isbnCode,
+        inventory.inStoreInventory,
+        inventory.reservationInventory
+      )
     );
 
     // TODO: 集約内の他のドメインモデルの再構築

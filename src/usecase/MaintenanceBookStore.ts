@@ -4,6 +4,7 @@ import { myContainer } from "../inversify.config";
 import { TYPES } from "../types";
 import { AddBookStoreRequest } from "./dto/request/AddBookStoreRequest";
 import { BookRepository } from "../domain/interface/BookRepository";
+import { BookInventory } from "../domain/BookInventory";
 
 export class MaintenanceBookStore {
   private bookStoreRepository = myContainer.get<BookStoreRepository>(
@@ -23,7 +24,19 @@ export class MaintenanceBookStore {
   }
 
   async fetchBookInventry() {
-    await this.bookStoreRepository.fetch();
+    this.bookStoreRepository.fetchInventory().forEach(async (inventory) => {
+      const bookStore = await this.bookStoreRepository.findById(
+        inventory.bookStoreId
+      );
+      bookStore.addInventry(
+        BookInventory.fromRepository(
+          inventory.isbnCode,
+          inventory.inStoreInventory,
+          inventory.reservationInventory
+        )
+      );
+      await this.bookStoreRepository.upadateInventory(bookStore);
+    });
   }
 
   async fetchBook() {
