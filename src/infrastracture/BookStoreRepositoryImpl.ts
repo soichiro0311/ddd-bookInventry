@@ -68,6 +68,25 @@ export class BookStoreRepositoryImpl implements BookStoreRepository {
     });
   }
 
+  async upadateOrder(bookStore: BookStore): Promise<void> {
+    bookStore.order().forEach(async (order) => {
+      await this.prisma.bookStore.update({
+        data: {
+          order: {
+            create: {
+              isbnCode: order.isbnCode(),
+              orderBookCount: order.orderBookCount(),
+              status: order.status(),
+              id: order.id(),
+              userId: order.userId(),
+            },
+          },
+        },
+        where: { id: bookStore.id() },
+      });
+    });
+  }
+
   fetchInventory(): BookInventoryRepositoryDto[] {
     const records = parseCSV("bookInventory.csv");
 

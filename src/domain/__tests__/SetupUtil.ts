@@ -11,11 +11,6 @@ export const createMockBookStore = (
   inStoreInventory: number,
   reservationInventory: number
 ) => {
-  const address = new Address(
-    Prefecture.KANAGAWA_KAWASKI,
-    new StreetAddress(3, 4)
-  );
-
   const request = new AddBookStoreRequest(
     "ヨシロー書店",
     "Kanagawa",

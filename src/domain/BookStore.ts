@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "../../node_modules/uuid/dist/cjs";
 import { Order } from "./Order";
 import { OrderStatus } from "./OrderStatus";
 import { AddBookStoreRequest } from "../usecase/dto/request/AddBookStoreRequest";
+import { DomainError } from "../error/DomainError";
 
 export class BookStore {
   private _id: string;
@@ -149,6 +150,18 @@ export class BookStore {
   }
 
   recordOrder(order: Order) {
+    const isNotHandledBook =
+      this._bookInventory.find(
+        (inventory) => inventory.isbnCode() === order.isbnCode()
+      ) == null;
+
+    if (isNotHandledBook) {
+      throw new DomainError(
+        `対象の書籍は取り寄せ対象の書店では取り扱っていません。 ISBNコード: ${order.isbnCode()} 書店ID: ${
+          this._id
+        }`
+      );
+    }
     this._order.push(order);
   }
 
@@ -162,5 +175,9 @@ export class BookStore {
     }
 
     return targetOrder.status();
+  }
+
+  order() {
+    return this._order;
   }
 }

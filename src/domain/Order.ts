@@ -22,11 +22,7 @@ export class Order {
     this._userId = userId;
   }
 
-  static new(
-    isbnCode: string,
-    orderBookCount: number,
-    userId: string
-  ) {
+  static new(isbnCode: string, orderBookCount: number, userId: string) {
     return new Order(
       uuidv4(),
       isbnCode,
@@ -50,5 +46,9 @@ export class Order {
 
   userId() {
     return this._userId;
+  }
+
+  orderBookCount() {
+    return this._orderBookCount;
   }
 }
