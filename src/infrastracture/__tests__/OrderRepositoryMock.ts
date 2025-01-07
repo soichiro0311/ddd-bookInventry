@@ -4,10 +4,13 @@ import { OrderRepository } from "../../domain/interface/OrderRepository";
 export class OrderRepositoryMock implements OrderRepository {
   private store: Map<string, Order> = new Map();
 
-  save(order: Order): void {
-    this.store.set(order.id(), order);
+  async save(order: Order): Promise<void> {
+    await this.store.set(order.id(), order);
   }
   clear(): void {
     this.store.clear();
+  }
+  async findAll(): Promise<Order[]> {
+    return Array.from(this.store.values());
   }
 }

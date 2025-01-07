@@ -7,37 +7,46 @@ export class Order {
   private _status: OrderStatus;
   private _orderBookCount: number;
   private _userId: string;
+  private _bookStoreId: string;
 
   constructor(
     id: string,
     isbnCode: string,
     status: OrderStatus,
     orderBookCount: number,
-    userId: string
+    userId: string,
+    bookStoreId: string
   ) {
     this._id = id;
     this._isbnCode = isbnCode;
     this._status = status;
     this._orderBookCount = orderBookCount;
     this._userId = userId;
+    this._bookStoreId = bookStoreId;
   }
 
   static new(
     isbnCode: string,
     orderBookCount: number,
-    userId: string
+    userId: string,
+    bookStoreId: string
   ) {
     return new Order(
       uuidv4(),
       isbnCode,
       OrderStatus.PLACED,
       orderBookCount,
-      userId
+      userId,
+      bookStoreId
     );
   }
 
   id(): string {
     return this._id;
+  }
+
+  bookStoreId(): any {
+    return this._bookStoreId;
   }
 
   isbnCode() {
@@ -50,5 +59,9 @@ export class Order {
 
   userId() {
     return this._userId;
+  }
+
+  orderBookCount() {
+    return this._orderBookCount;
   }
 }

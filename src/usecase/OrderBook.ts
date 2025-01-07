@@ -6,6 +6,7 @@ import { TransactionRepository } from "../domain/interface/TransactionRepository
 import { myContainer } from "../inversify.config";
 import { TYPES } from "../types";
 import { OrderRepository } from "../domain/interface/OrderRepository";
+import { OrderPlaceRequest } from "./dto/request/OrderPlaceRequest";
 
 export class OrderBook {
   private bookStoreRepository = myContainer.get<BookStoreRepository>(
@@ -31,16 +32,13 @@ export class OrderBook {
     this.bookStoreRepository.save(bookStore);
   }
 
-  async placeOrder(
-    isbnCode: string,
-    orderBookCount: number,
-    bookStoreId: string,
-    userId: string
-  ) {
-    const order = Order.new(isbnCode, orderBookCount, userId);
+  async placeOrder(request: OrderPlaceRequest) {
+    const order = Order.new(
+      request.isbnCode,
+      request.orderBookCount,
+      request.userId,
+      request.bookStoreId
+    );
     this.orderRepository.save(order);
-    const bookStore = await this.bookStoreRepository.findById(bookStoreId);
-    bookStore.recordOrder(order);
-    this.bookStoreRepository.save(bookStore);
   }
 }
