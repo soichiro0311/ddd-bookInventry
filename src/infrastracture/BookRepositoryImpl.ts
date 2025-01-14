@@ -10,6 +10,15 @@ export class BookRepositoryImpl implements BookRepository {
     this.prisma = new PrismaClient({ log: ["query", "info", "warn", "error"] });
   }
 
+  async findByTitle(title: string): Promise<Book[]> {
+    const bookData = await this.prisma.book.findMany({
+      where: {
+        title: { contains: title },
+      },
+    });
+    return bookData.map((data) => Book.fromRepository(data));
+  }
+
   clear(): void {
     throw new Error("Method not implemented.");
   }

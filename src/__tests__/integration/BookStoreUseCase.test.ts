@@ -5,7 +5,6 @@ import { BookStoreRepository } from "../../domain/interface/BookStoreRepository"
 import { TYPES } from "../../types";
 import { myContainer } from "../../inversify.config";
 import { BookRepository } from "../../domain/interface/BookRepository";
-import { v4 as uuidv4 } from "../../../node_modules/uuid/dist/cjs";
 import { dummyInventoryCSVDto } from "../../infrastracture/__tests__/BookStoreRepositoryMock";
 import { BookInventoryRepositoryDto } from "../../usecase/dto/response/BookInventryRepositoryDto";
 

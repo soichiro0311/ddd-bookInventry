@@ -19,6 +19,7 @@ server.post("/bookStore", bookStoreController.addBookStore);
 server.get("/bookStore", bookStoreController.allBookStore);
 
 server.post("/book", bookStoreController.fetchBook);
+server.get("/book", bookStoreController.searchBook);
 server.post("/bookInventory", bookStoreController.fetchBookInventry);
 
 server.post("/order", orderController.order);

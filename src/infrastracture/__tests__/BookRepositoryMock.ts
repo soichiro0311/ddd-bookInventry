@@ -9,6 +9,12 @@ const dummyBookData = [
 export class BookRepositoryMock implements BookRepository {
   private store: Map<string, Book> = new Map();
 
+  async findByTitle(title: string): Promise<Book[]> {
+    return await Array.from(dummyBookData.values()).filter((book) =>
+      book.title().includes(title)
+    );
+  }
+
   async fetch(): Promise<void> {
     await dummyBookData.forEach((book) =>
       this.store.set(book.isbnCode(), book)
