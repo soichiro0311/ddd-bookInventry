@@ -2,9 +2,11 @@
   "name": "ddd-book-inventry",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "scripts": {
     "dev": "turbo run dev",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "install": "turbo run install"
   },
   "workspaces": [
     "src/server/*",

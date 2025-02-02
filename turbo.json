@@ -2,6 +2,7 @@
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
     "dev": {},
-    "test": {}
+    "test": {},
+    "install": {}
   }
 }
