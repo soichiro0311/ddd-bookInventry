@@ -1,19 +1,23 @@
 {
-  "name": "ddd-book-inventry",
+  "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
+  "main": "index.js",
   "scripts": {
-    "dev": "turbo run dev",
-    "test": "turbo run test"
+    "dev": "./node_modules/.bin/ts-node index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "prisma:generate": "./node_modules/.bin/prisma generate",
+    "prisma:migrate": "./node_modules/.bin/prisma migrate deploy",
+    "prisma:seed": "./node_modules/.bin/prisma db seed",
+    "prisma:create-migrate": "prisma migrate dev --name ${0}"
   },
-  "workspaces": [
-    "src/server/*",
-    "src/client/*"
-  ],
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "yarn@1.22.22",
   "devDependencies": {
     "@types/jest": "^28.0.0",
     "@types/node": "^22.10.2",
