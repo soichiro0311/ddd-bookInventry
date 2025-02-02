@@ -13,5 +13,7 @@ jobs:
           node-version: 21
       - name: install
         run: yarn
+      - name: setup prisma
+        run: yarn --cwd src/server/book-inventory-server prisma:generate
       - name: jest
         run: TZ=Asia/Tokyo yarn test
