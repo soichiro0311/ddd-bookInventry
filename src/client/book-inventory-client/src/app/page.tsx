@@ -1,14 +1,9 @@
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import { Paper } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { SearchBar } from "./components/SearchBar";
+import { ContentsArea } from "./ContentsArea";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <SearchBar />
+    <div className="p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <ContentsArea />
     </div>
   );
 }
