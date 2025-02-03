@@ -1,4 +1,5 @@
 import useSWRMutation from "swr/mutation";
+import { convert } from "../api/converter/searchKeywordConverter";
 
 export function useSearchKeyword() {
   async function sendRequest(url: string, { arg }: { arg: { title: string } }) {
@@ -11,8 +12,10 @@ export function useSearchKeyword() {
     sendRequest /* options */
   );
 
+  const viewModel = convert(data);
+
   return {
     trigger,
-    data,
+    viewModel,
   };
 }

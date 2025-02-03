@@ -4,6 +4,7 @@ import { IconButton, InputBase, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useForm } from "react-hook-form";
 import { useSearchKeyword } from "../hooks/keywordSearch";
+import { convert } from "../api/converter/searchKeywordConverter";
 
 type Inputs = {
   keyword: string;
@@ -16,7 +17,7 @@ export function SearchBar({ setContents }: { setContents: Function }) {
 
   const onSubmitHandler = async (data: Inputs) => {
     trigger({ title: data.keyword }).then((value) => {
-      setContents(value);
+      setContents(convert(value));
     });
   };
 
