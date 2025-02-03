@@ -14,9 +14,7 @@ describe("書籍検索ユースケース", () => {
     const request = supertest(server);
     await request.post("/book");
 
-    const books = await request.get("/book").send({
-      title: "バイク雑誌",
-    });
+    const books = await request.get("/book?title=バイク雑誌");
 
     expect(books.status).toBe(200);
     expect(books.body).toHaveLength(1);
@@ -27,9 +25,7 @@ describe("書籍検索ユースケース", () => {
     const request = supertest(server);
     await request.post("/book");
 
-    const books = await request.get("/book").send({
-      title: "バイク",
-    });
+    const books = await request.get("/book?title=バイク");
 
     expect(books.status).toBe(200);
     expect(books.body).toHaveLength(1);
