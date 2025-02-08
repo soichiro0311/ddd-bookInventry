@@ -41,6 +41,14 @@ export class MaintenanceBookStore {
   }
 
   async fetchBook() {
-    await this.bookRepository.fetch();
+    const registeredBooks = await this.bookRepository.findAll();
+    const importBooks = await this.bookRepository.importCSV();
+    const shouldRegisterBooks = importBooks.filter(
+      (imported) =>
+        registeredBooks.find(
+          (registered) => registered.isbnCode() === imported.isbnCode()
+        ) == null
+    );
+    await this.bookRepository.add(shouldRegisterBooks);
   }
 }

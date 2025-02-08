@@ -3,6 +3,7 @@
   "tasks": {
     "dev": {},
     "test": {},
+    "test:watch": {},
     "install": {}
   }
 }

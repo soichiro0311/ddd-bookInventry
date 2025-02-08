@@ -1,5 +1,6 @@
 import useSWRMutation from "swr/mutation";
 import { convert } from "../api/converter/searchKeywordConverter";
+import useSWR from "swr";
 
 export function useSearchKeyword() {
   async function sendRequest(url: string, { arg }: { arg: { title: string } }) {
@@ -17,5 +18,19 @@ export function useSearchKeyword() {
   return {
     trigger,
     viewModel,
+  };
+}
+
+export function useBooks() {
+  const { data: rawData, isLoading } = useSWR(
+    `http://localhost:8080/book`,
+    (url) => fetch(url).then((r) => r.json())
+  );
+
+  const viewModel = convert(rawData);
+
+  return {
+    data: viewModel,
+    isLoading,
   };
 }

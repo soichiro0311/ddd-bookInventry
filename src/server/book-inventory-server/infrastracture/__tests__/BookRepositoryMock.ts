@@ -15,10 +15,16 @@ export class BookRepositoryMock implements BookRepository {
     );
   }
 
-  async fetch(): Promise<void> {
-    await dummyBookData.forEach((book) =>
-      this.store.set(book.isbnCode(), book)
-    );
+  async findAll(): Promise<Book[]> {
+    return await Array.from(dummyBookData.values());
+  }
+
+  async importCSV(): Promise<Book[]> {
+    return await dummyBookData;
+  }
+
+  async add(books: Book[]): Promise<void> {
+    await books.forEach((book) => this.store.set(book.isbnCode(), book));
   }
 
   async clear(): Promise<void> {

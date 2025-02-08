@@ -5,7 +5,6 @@ import { SearchBook } from "../usecase/SearchBook";
 import { BookStoreDto } from "./dto/BookStoreDto";
 
 const maintenaceBookStore = new MaintenanceBookStore();
-const searchBook = new SearchBook();
 const searchBookInventoryQueryService = new SearchBookInventoryRepository();
 
 export class BookStoreController {

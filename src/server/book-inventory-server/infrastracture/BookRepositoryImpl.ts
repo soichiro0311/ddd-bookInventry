@@ -19,26 +19,38 @@ export class BookRepositoryImpl implements BookRepository {
     return bookData.map((data: any) => Book.fromRepository(data));
   }
 
+  async findAll(): Promise<Book[]> {
+    const bookData = await this.prisma.book.findMany();
+    return bookData.map((data: any) => Book.fromRepository(data));
+  }
+
   clear(): void {
     throw new Error("Method not implemented.");
   }
 
-  async fetch(): Promise<void> {
+  async add(books: Book[]): Promise<void> {
+    const dto = books.map((domain) => {
+      return {
+        isbnCode: domain.isbnCode(),
+        title: domain.title(),
+        price: domain.price(),
+      };
+    });
+
+    await this.prisma.book.createMany({
+      data: dto,
+    });
+  }
+
+  async importCSV(): Promise<Book[]> {
     const records = parseCSV("book.csv");
 
-    records.forEach(async (record) => {
+    return records.map((record) => {
       const isbnCode = record[0];
       const title = record[1];
       const price = Number(record[2]);
 
-      const book = Book.new(isbnCode, title, price);
-      await this.prisma.book.create({
-        data: {
-          isbnCode: book.isbnCode(),
-          title: book.title(),
-          price: book.price(),
-        },
-      });
+      return Book.new(isbnCode, title, price);
     });
   }
 }

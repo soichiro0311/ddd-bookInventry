@@ -1,7 +1,9 @@
 import { Book } from "../Book";
 
 export interface BookRepository {
+  add(books: Book[]): Promise<void>;
+  findAll(): Promise<Book[]>;
   findByTitle(title: string): Promise<Book[]>;
-  fetch(): Promise<void>;
+  importCSV(): Promise<Book[]>;
   clear(): void;
 }

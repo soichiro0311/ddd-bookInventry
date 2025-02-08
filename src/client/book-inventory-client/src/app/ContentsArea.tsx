@@ -1,25 +1,34 @@
 "use client";
 
 import { SearchBar } from "./components/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Book } from "./types/api/BookApiTypes";
 import BookIcon from "@mui/icons-material/Book";
 import Divider from "@mui/material/Divider";
 import { BookCardViewModel } from "./viewModel/BookCardViewModel";
+import { useBooks } from "./hooks/keywordSearch";
+import { LoadingWrapper } from "./components/LoadingWrapper";
 
 export function ContentsArea() {
+  const { data, isLoading } = useBooks();
   const [contents, setContents] = useState<BookCardViewModel[]>([]);
+
+  useEffect(() => {
+    setContents(data);
+  }, [isLoading]);
 
   return (
     <div className="w-full">
       <SearchBar setContents={setContents} />
       <div className="p-2">
-        {contents.map((book, index) => (
-          <div className="pt-1" key={index}>
-            <BookCard book={book} />
-            <Divider />
-          </div>
-        ))}
+        <LoadingWrapper isLoading={isLoading}>
+          {contents.map((book, index) => (
+            <div className="pt-1" key={index}>
+              <BookCard book={book} />
+              <Divider />
+            </div>
+          ))}
+        </LoadingWrapper>
       </div>
     </div>
   );
