@@ -2,7 +2,6 @@
 
 import { SearchBar } from "./components/SearchBar";
 import { useEffect, useState } from "react";
-import { Book } from "./types/api/BookApiTypes";
 import BookIcon from "@mui/icons-material/Book";
 import Divider from "@mui/material/Divider";
 import { BookCardViewModel } from "./viewModel/BookCardViewModel";

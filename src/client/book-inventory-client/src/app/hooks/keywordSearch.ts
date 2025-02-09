@@ -27,8 +27,9 @@ export function useBooks() {
     (url) => fetch(url).then((r) => r.json())
   );
 
-  const viewModel = convert(rawData);
+  console.log(isLoading);
 
+  const viewModel = convert(rawData);
   return {
     data: viewModel,
     isLoading,
