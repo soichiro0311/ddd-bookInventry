@@ -1,5 +1,5 @@
-import { Book } from "@/app/types/api/BookApiTypes";
-import { BookCardViewModel } from "@/app/viewModel/BookCardViewModel";
+import { Book } from "../../../app/types/api/BookApiTypes";
+import { BookCardViewModel } from "../../../app/viewModel/BookCardViewModel";
 
 export const convert = (data: Book[]) => {
   if (data == null || data.length === 0) {

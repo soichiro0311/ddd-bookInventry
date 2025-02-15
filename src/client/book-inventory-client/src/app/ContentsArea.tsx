@@ -7,6 +7,7 @@ import Divider from "@mui/material/Divider";
 import { BookCardViewModel } from "./viewModel/BookCardViewModel";
 import { useBooks } from "./hooks/keywordSearch";
 import { LoadingWrapper } from "./components/LoadingWrapper";
+import { default as cn } from "clsx";
 
 export function ContentsArea() {
   const { data, isLoading } = useBooks();
@@ -16,20 +17,44 @@ export function ContentsArea() {
     setContents(data);
   }, [isLoading]);
 
+  const isSearchResultExist = contents != null && contents.length > 0;
+
   return (
     <div className="w-full">
       <SearchBar setContents={setContents} />
-      <div className="p-2">
+      <div
+        className={cn(
+          isSearchResultExist
+            ? "p-2"
+            : "p-2 flex items-center justify-center h-screen"
+        )}
+      >
         <LoadingWrapper isLoading={isLoading}>
-          {contents.map((book, index) => (
-            <div className="pt-1" key={index}>
-              <BookCard book={book} />
-              <Divider />
-            </div>
-          ))}
+          {isSearchResultExist ? (
+            <BookCardList bookCardList={contents} />
+          ) : (
+            <EmptyDisplay />
+          )}
         </LoadingWrapper>
       </div>
     </div>
+  );
+}
+
+function EmptyDisplay() {
+  return <p className="">対象のキーワードに該当する書籍はありませんでした。</p>;
+}
+
+function BookCardList({ bookCardList }: { bookCardList: BookCardViewModel[] }) {
+  return (
+    <>
+      {bookCardList.map((book, index) => (
+        <div className="pt-1" key={index}>
+          <BookCard book={book} />
+          <Divider />
+        </div>
+      ))}
+    </>
   );
 }
 

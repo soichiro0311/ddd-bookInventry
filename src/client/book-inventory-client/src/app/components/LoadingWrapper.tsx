@@ -16,7 +16,7 @@ export function LoadingWrapper({
 
 function LoadingIcon() {
   return (
-    <div className="flex justify-center my-20">
+    <div className="flex justify-center my-20" aria-label="読み込み中">
       <div
         className="w-10 h-10 rounded-full border-4 border-blue-500 animate-spin"
         style={{ borderTopColor: "transparent" }}
