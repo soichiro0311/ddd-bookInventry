@@ -10,7 +10,7 @@ export class BookController {
         BookDto.fromDomainModel(domain)
       );
       res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-      res.status(200).send(dto);
+      res.status(500).send(dto);
     });
   }
 }

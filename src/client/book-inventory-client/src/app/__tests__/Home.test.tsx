@@ -64,18 +64,16 @@ describe("UI Stack", () => {
   test("エラーが発生した場合のUI", async () => {
     server.use(
       http.get("http://localhost:8080/book", async () => {
-        return HttpResponse.json([]);
+        return new HttpResponse(JSON.stringify({}), { status: 500 });
       })
     );
     render(<TestComponent />);
     await waitFor(() => {
+      expect(screen.queryByText("読み込み中")).not.toBeInTheDocument();
       expect(
-        screen.queryByText(
+        screen.getByText(
           "一時的にエラーが発生しております。再度時間置いて検索してください。"
         )
-      ).not.toBeInTheDocument();
-      expect(
-        screen.getByText("対象のキーワードに該当する書籍はありませんでした。")
       ).toBeInTheDocument();
     });
   });

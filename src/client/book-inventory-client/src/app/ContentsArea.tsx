@@ -8,10 +8,11 @@ import { BookCardViewModel } from "./viewModel/BookCardViewModel";
 import { useBooks } from "./hooks/keywordSearch";
 import { LoadingWrapper } from "./components/LoadingWrapper";
 import { default as cn } from "clsx";
+import ErrorDialog from "./components/ErrorDialog";
 
 export function ContentsArea() {
-  const { data, isLoading } = useBooks();
-  const [contents, setContents] = useState<BookCardViewModel[]>([]);
+  const { data, isLoading, error } = useBooks();
+  const [contents, setContents] = useState<BookCardViewModel[] | undefined>([]);
 
   useEffect(() => {
     setContents(data);
@@ -30,19 +31,61 @@ export function ContentsArea() {
         )}
       >
         <LoadingWrapper isLoading={isLoading}>
-          {isSearchResultExist ? (
-            <BookCardList bookCardList={contents} />
-          ) : (
-            <EmptyDisplay />
-          )}
+          <Contnets
+            error={error}
+            bookCardList={contents}
+            isSearchResultExist={isSearchResultExist}
+          />
         </LoadingWrapper>
       </div>
     </div>
   );
 }
 
+function Contnets({
+  error,
+  bookCardList,
+  isSearchResultExist,
+}: {
+  error?: {
+    status: any;
+    message: string;
+  };
+  bookCardList?: BookCardViewModel[];
+  isSearchResultExist: boolean;
+}) {
+  const isErrorOccurd = error != null;
+
+  if (isErrorOccurd) {
+    return <ErrorDisplay />;
+  }
+
+  if (isSearchResultExist) {
+    if (bookCardList == null) {
+      throw new Error();
+    }
+    return <BookCardList bookCardList={bookCardList} />;
+  }
+
+  return <EmptyDisplay />;
+}
+
 function EmptyDisplay() {
-  return <p className="">対象のキーワードに該当する書籍はありませんでした。</p>;
+  return <p>対象のキーワードに該当する書籍はありませんでした。</p>;
+}
+
+function ErrorDisplay() {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <>
+      <p>一時的にエラーが発生したため、表示できておりません。</p>
+      <ErrorDialog
+        shouldOpen={open}
+        onClickCloseButton={() => setOpen(false)}
+      />
+    </>
+  );
 }
 
 function BookCardList({ bookCardList }: { bookCardList: BookCardViewModel[] }) {

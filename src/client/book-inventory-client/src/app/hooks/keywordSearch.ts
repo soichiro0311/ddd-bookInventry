@@ -22,14 +22,31 @@ export function useSearchKeyword() {
 }
 
 export function useBooks() {
-  const { data: rawData, isLoading } = useSWR(
-    `http://localhost:8080/book`,
-    (url) => fetch(url).then((r) => r.json())
-  );
+  const {
+    data: rawData,
+    isLoading,
+    error: swrError,
+  } = useSWR(`http://localhost:8080/book`, fetcher);
 
-  const viewModel = convert(rawData);
+  const error =
+    rawData != null && rawData.statusCode !== 200
+      ? {
+          status: rawData.statusCode,
+          message:
+            "一時的にエラーが発生しております。再度時間置いて検索してください。",
+        }
+      : undefined;
+
+  const viewModel = error != null ? undefined : convert(rawData?.data);
   return {
+    error,
     data: viewModel,
     isLoading,
   };
 }
+
+const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  const json = await response.json();
+  return { data: json, statusCode: response.status };
+};
