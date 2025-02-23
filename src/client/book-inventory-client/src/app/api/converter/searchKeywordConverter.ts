@@ -1,7 +1,7 @@
-import { BookInventory } from "@/app/types/api/BookInventoryApiTypes";
+import { BookInventory } from "../../../app/types/api/BookInventoryApiTypes";
 import { Book } from "../../../app/types/api/BookApiTypes";
 import { BookCardViewModel } from "../../../app/viewModel/BookCardViewModel";
-import { InventoryPageViewModel } from "@/app/viewModel/InventoryCardViewModel";
+import { InventoryPageViewModel } from "../../../app/viewModel/InventoryCardViewModel";
 
 export const convert = (books: Book[]) => {
   if (books == null || books.length === 0) {

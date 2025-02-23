@@ -3,6 +3,9 @@ import Home from "../page";
 import { setupServer } from "msw/node";
 import { delay, http, HttpResponse } from "msw";
 import { mutate, SWRConfig, useSWRConfig } from "swr";
+import * as navigation from "next/navigation";
+
+jest.mock("next/navigation");
 
 function TestComponent() {
   return (
@@ -16,6 +19,9 @@ describe("UI Stack", () => {
   const server = setupServer(/* TODO: デフォルトのハンドラーを追加 */);
   beforeAll(() => {
     server.listen();
+    (navigation.useRouter as jest.Mock).mockImplementation(() => ({
+      push: jest.fn(),
+    }));
   });
   afterEach(() => {
     server.resetHandlers();
