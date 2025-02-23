@@ -17,7 +17,7 @@ export default function BookDetailContents({ isbnCode }: { isbnCode: string }) {
       {/* TODO: 検索窓 */}
       <BookCard book={data?.bookInfo} />
       <Divider className="pt-2" />
-      <div className="pt-2 flex-col gap-2">
+      <div className="pt-2 flex flex-col gap-2">
         {data?.inventoryInfo.map((inventory) => (
           <InventoryCard
             inventoryViewModel={inventory}
