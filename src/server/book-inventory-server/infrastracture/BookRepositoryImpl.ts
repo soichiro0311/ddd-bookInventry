@@ -20,11 +20,14 @@ export class BookRepositoryImpl implements BookRepository {
   }
 
   async findByIsBnCode(isbnCode: string): Promise<Book> {
-    const bookData = await this.prisma.book.findUniqueOrThrow({
+    const bookData = await this.prisma.book.findUnique({
       where: {
         isbnCode: isbnCode,
       },
     });
+    if (bookData == null) {
+      throw new Error(`Not Found Book! isbnCode=${isbnCode}`);
+    }
     return Book.fromRepository(bookData);
   }
 
