@@ -1,4 +1,4 @@
-import { BookInventoryRepositoryDto } from "../../server/usecase/dto/response/BookInventryRepositoryDto";
+import { BookInventoryRepositoryDto } from "server/usecase/dto/response/BookInventryRepositoryDto";
 import { BookStore } from "../BookStore";
 
 export interface BookStoreRepository {

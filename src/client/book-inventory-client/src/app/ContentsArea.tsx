@@ -7,9 +7,9 @@ import { BookCardViewModel } from "./viewModel/BookCardViewModel";
 import { useBooks } from "./hooks/keywordSearch";
 import { LoadingWrapper } from "./components/LoadingWrapper";
 import { default as cn } from "clsx";
-import ErrorDialog from "./components/ErrorDialog";
 import { BookCard } from "./components/BookCard";
 import { useRouter } from "next/navigation";
+import { ErrorDisplay } from "./components/ErrorDisplay";
 
 export function ContentsArea() {
   const { data, isLoading, error } = useBooks();
@@ -73,20 +73,6 @@ function Contnets({
 
 function EmptyDisplay() {
   return <p>対象のキーワードに該当する書籍はありませんでした。</p>;
-}
-
-function ErrorDisplay() {
-  const [open, setOpen] = useState(true);
-
-  return (
-    <>
-      <p>一時的にエラーが発生したため、表示できておりません。</p>
-      <ErrorDialog
-        shouldOpen={open}
-        onClickCloseButton={() => setOpen(false)}
-      />
-    </>
-  );
 }
 
 function BookCardList({ bookCardList }: { bookCardList: BookCardViewModel[] }) {

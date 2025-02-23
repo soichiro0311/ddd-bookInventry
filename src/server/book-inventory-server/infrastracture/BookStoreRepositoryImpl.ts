@@ -56,10 +56,19 @@ export class BookStoreRepositoryImpl implements BookStoreRepository {
       await this.prisma.bookStore.update({
         data: {
           bookInventory: {
-            create: {
-              isbnCode: inventory.isbnCode(),
-              inStoreInventory: inventory.inStoreInventory(),
-              reservationInventory: inventory.reservationInventory(),
+            upsert: {
+              create: {
+                isbnCode: inventory.isbnCode(),
+                inStoreInventory: inventory.inStoreInventory(),
+                reservationInventory: inventory.reservationInventory(),
+              },
+              update: {},
+              where: {
+                isbnCode_bookStoreId: {
+                  isbnCode: inventory.isbnCode(),
+                  bookStoreId: bookStore.id(),
+                },
+              },
             },
           },
         },

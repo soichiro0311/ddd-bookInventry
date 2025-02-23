@@ -1,17 +1,20 @@
-import { BookInventory } from "../types/api/BookInventoryApiTypes";
+import {
+  BookInventory,
+  InventoryInfo,
+} from "../types/api/BookInventoryApiTypes";
 import { BookCardViewModel } from "./BookCardViewModel";
 
 export class InventoryPageViewModel {
   bookInfo: BookCardViewModel;
   inventoryInfo: InventoryCardViewModel[];
 
-  constructor(apiResponse: BookInventory[]) {
+  constructor(apiResponse: BookInventory) {
     this.bookInfo = new BookCardViewModel(
-      apiResponse[0].bookTitle,
-      apiResponse[0].isbnCode,
-      apiResponse[0].price
+      apiResponse.bookInfo.title,
+      apiResponse.bookInfo.isbnCode,
+      apiResponse.bookInfo.price
     );
-    this.inventoryInfo = apiResponse.map(
+    this.inventoryInfo = apiResponse.inventoryInfo.map(
       (apiDto) => new InventoryCardViewModel(apiDto)
     );
   }
@@ -19,14 +22,24 @@ export class InventoryPageViewModel {
   price() {
     return this.bookInfo.price();
   }
+
+  isSupportedOfflineStore() {
+    return this.inventoryInfo != null && this.inventoryInfo.length > 0;
+  }
 }
 
 export class InventoryCardViewModel {
   bookStoreName: string;
+  address: string;
   inStoreInventory: number;
 
-  constructor(apiResponse: BookInventory) {
+  constructor(apiResponse: InventoryInfo) {
     this.bookStoreName = apiResponse.bookStoreName;
+    this.address = apiResponse.address;
     this.inStoreInventory = apiResponse.inStoreInventory;
+  }
+
+  isInStore() {
+    return this.inStoreInventory > 0;
   }
 }

@@ -12,9 +12,9 @@ export const convert = (books: Book[]) => {
   );
 };
 
-export const convertInventory = (inventories: BookInventory[]) => {
-  if (inventories == null || inventories.length === 0) {
+export const convertInventory = (bookInventory: BookInventory) => {
+  if (bookInventory == null) {
     return undefined;
   }
-  return new InventoryPageViewModel(inventories);
+  return new InventoryPageViewModel(bookInventory);
 };
