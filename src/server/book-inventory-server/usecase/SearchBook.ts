@@ -8,7 +8,11 @@ export class SearchBook {
     TYPES.BookRepository
   );
 
-  async search(title: string) {
+  async searchByTitle(title: string) {
     return await this.bookRepository.findByTitle(title);
+  }
+
+  async searchByIsbnCode(isbnCode: string) {
+    return await this.bookRepository.findByIsBnCode(isbnCode);
   }
 }

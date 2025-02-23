@@ -21,7 +21,7 @@ server.post("/bookStore", bookStoreController.addBookStore);
 server.get("/bookStore", bookStoreController.allBookStore);
 
 server.post("/book", bookStoreController.fetchBook);
-server.get("/book", bookController.searchBook);
+server.get("/book", bookController.searchByTitle);
 
 server.post("/bookInventory", bookStoreController.fetchBookInventry);
 server.get("/bookInventory", bookStoreController.searchBookInventory);

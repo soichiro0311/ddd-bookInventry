@@ -15,6 +15,12 @@ export class BookRepositoryMock implements BookRepository {
     );
   }
 
+  async findByIsBnCode(isbnCode: string): Promise<Book> {
+    return await Array.from(dummyBookData.values()).filter((book) =>
+      book.isbnCode().includes(isbnCode)
+    )[0];
+  }
+
   async findAll(): Promise<Book[]> {
     return await Array.from(dummyBookData.values());
   }

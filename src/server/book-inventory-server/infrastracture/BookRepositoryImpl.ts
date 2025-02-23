@@ -19,6 +19,15 @@ export class BookRepositoryImpl implements BookRepository {
     return bookData.map((data: any) => Book.fromRepository(data));
   }
 
+  async findByIsBnCode(isbnCode: string): Promise<Book> {
+    const bookData = await this.prisma.book.findUniqueOrThrow({
+      where: {
+        isbnCode: isbnCode,
+      },
+    });
+    return Book.fromRepository(bookData);
+  }
+
   async findAll(): Promise<Book[]> {
     const bookData = await this.prisma.book.findMany();
     return bookData.map((data: any) => Book.fromRepository(data));
