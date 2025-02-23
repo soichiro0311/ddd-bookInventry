@@ -1,6 +1,11 @@
 import useSWRMutation from "swr/mutation";
-import { convert } from "../api/converter/searchKeywordConverter";
+import {
+  convert,
+  convertInventory,
+} from "../api/converter/searchKeywordConverter";
 import useSWR from "swr";
+import { BookCardViewModel } from "../viewModel/BookCardViewModel";
+import { commonFetcher } from "../shared/api/Fethcer";
 
 export function useSearchKeyword() {
   async function sendRequest(url: string, { arg }: { arg: { title: string } }) {
@@ -26,7 +31,7 @@ export function useBooks() {
     data: rawData,
     isLoading,
     error: swrError,
-  } = useSWR(`http://localhost:8080/book`, fetcher);
+  } = useSWR(`http://localhost:8080/book`, commonFetcher);
 
   const error =
     rawData != null && rawData.statusCode !== 200
@@ -45,8 +50,29 @@ export function useBooks() {
   };
 }
 
-const fetcher = async (url: string) => {
-  const response = await fetch(url);
-  const json = await response.json();
-  return { data: json, statusCode: response.status };
-};
+export function useBookInventory(isbnCode: string) {
+  const {
+    data: rawData,
+    isLoading,
+    error: swrError,
+  } = useSWR(
+    `http://localhost:8080/bookInventory?isbnCode=${isbnCode}`,
+    commonFetcher
+  );
+
+  const error =
+    rawData != null && rawData.statusCode !== 200
+      ? {
+          status: rawData.statusCode,
+          message:
+            "一時的にエラーが発生しております。再度時間置いて検索してください。",
+        }
+      : undefined;
+
+  const viewModel = error != null ? undefined : convertInventory(rawData?.data);
+  return {
+    error,
+    data: viewModel,
+    isLoading,
+  };
+}

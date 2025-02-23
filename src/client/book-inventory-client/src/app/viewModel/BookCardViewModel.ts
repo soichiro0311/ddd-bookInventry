@@ -5,10 +5,21 @@ export class BookCardViewModel {
   isbnCode: string;
   private _price: number;
 
-  constructor(apiResponse: Book) {
-    this.title = apiResponse.title;
-    this.isbnCode = apiResponse.isbnCode;
-    this._price = apiResponse.price;
+  constructor(title: string, isbnCode: string, price: number) {
+    this.title = title;
+    this.isbnCode = isbnCode;
+    this._price = price;
+  }
+
+  static fromApiResponse(apiResponse: Book) {
+    if (apiResponse == null) {
+      return undefined;
+    }
+    return new BookCardViewModel(
+      apiResponse.title,
+      apiResponse.isbnCode,
+      apiResponse.price
+    );
   }
 
   price() {

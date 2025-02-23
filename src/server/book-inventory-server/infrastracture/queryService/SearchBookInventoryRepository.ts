@@ -30,6 +30,7 @@ export class SearchBookInventoryRepository implements SearchBookInventory {
         inventory.bookStore.id,
         inventory.isbnCode,
         bookInfo!.title,
+        bookInfo!.price,
         inventory.inStoreInventory
       );
     });

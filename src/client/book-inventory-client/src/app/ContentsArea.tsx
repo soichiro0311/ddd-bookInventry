@@ -2,13 +2,14 @@
 
 import { SearchBar } from "./components/SearchBar";
 import { useEffect, useState } from "react";
-import BookIcon from "@mui/icons-material/Book";
 import Divider from "@mui/material/Divider";
 import { BookCardViewModel } from "./viewModel/BookCardViewModel";
 import { useBooks } from "./hooks/keywordSearch";
 import { LoadingWrapper } from "./components/LoadingWrapper";
 import { default as cn } from "clsx";
 import ErrorDialog from "./components/ErrorDialog";
+import { BookCard } from "./components/BookCard";
+import { useRouter } from "next/navigation";
 
 export function ContentsArea() {
   const { data, isLoading, error } = useBooks();
@@ -89,31 +90,19 @@ function ErrorDisplay() {
 }
 
 function BookCardList({ bookCardList }: { bookCardList: BookCardViewModel[] }) {
+  const router = useRouter();
+
   return (
     <>
-      {bookCardList.map((book, index) => (
-        <div className="pt-1" key={index}>
-          <BookCard book={book} />
-          <Divider />
-        </div>
-      ))}
+      {bookCardList.map((book, index) => {
+        const onClickFunc = () => router.push(`/${book.isbnCode}`);
+        return (
+          <div className="pt-1" key={index}>
+            <BookCard book={book} onClickFunc={onClickFunc} />
+            <Divider />
+          </div>
+        );
+      })}
     </>
-  );
-}
-
-function BookCard({ book }: { book: BookCardViewModel }) {
-  return (
-    <div className="flex gap-[20px]">
-      <div className="flex-1">
-        <BookIcon fontSize="large" className={"w-[120px] h-[120px]"} />
-      </div>
-      <div className="flex-1">
-        <div className=" flex flex-col h-full">
-          <div className="flex-1 text-lg">{book.title}</div>
-          <div className="text-sm">{book.price()}</div>
-          <div className="text-sm">{book.isbnCode}</div>
-        </div>
-      </div>
-    </div>
   );
 }

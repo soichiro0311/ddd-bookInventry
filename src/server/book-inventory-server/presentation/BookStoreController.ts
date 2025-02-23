@@ -1,7 +1,6 @@
 import { SearchBookInventoryRepository } from "../infrastracture/queryService/SearchBookInventoryRepository";
 import { AddBookStoreRequest } from "../usecase/dto/request/AddBookStoreRequest";
 import { MaintenanceBookStore } from "../usecase/MaintenanceBookStore";
-import { SearchBook } from "../usecase/SearchBook";
 import { BookStoreDto } from "./dto/BookStoreDto";
 
 const maintenaceBookStore = new MaintenanceBookStore();
@@ -30,8 +29,9 @@ export class BookStoreController {
 
   searchBookInventory(req: any, res: any) {
     searchBookInventoryQueryService
-      .findInventoryBy(req.body.isbnCode)
+      .findInventoryBy(req.query.isbnCode)
       .then((bookInventory) => {
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         res.status(200).send(bookInventory);
       });
   }
