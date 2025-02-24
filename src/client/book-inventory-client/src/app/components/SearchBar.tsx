@@ -5,20 +5,34 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useForm } from "react-hook-form";
 import { useSearchKeyword } from "../hooks/keywordSearch";
 import { convert } from "../api/converter/searchKeywordConverter";
+import { useKeywordSearchContext } from "../provider/keywordSearchProvider";
 
 type Inputs = {
   keyword: string;
 };
 
-export function SearchBar({ setContents }: { setContents: Function }) {
-  const { handleSubmit, register } = useForm<Inputs>();
+export function SearchBar({
+  setContents,
+  onClickSearchFuncOption,
+}: {
+  setContents: Function;
+  onClickSearchFuncOption?: () => void;
+}) {
+  const { keyword, setKeyword } = useKeywordSearchContext();
+  const { handleSubmit, register } = useForm<Inputs>({
+    defaultValues: {
+      keyword: keyword,
+    },
+  });
 
   const { trigger } = useSearchKeyword();
 
   const onSubmitHandler = async (data: Inputs) => {
+    setKeyword(data.keyword);
     trigger({ title: data.keyword }).then((value) => {
       setContents(convert(value));
     });
+    onClickSearchFuncOption && onClickSearchFuncOption();
   };
 
   return (

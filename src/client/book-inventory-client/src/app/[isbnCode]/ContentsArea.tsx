@@ -10,15 +10,19 @@ import { InventoryCard } from "./BookInventoryCard";
 import { SearchBar } from "../components/SearchBar";
 import { useState } from "react";
 import { BookCardViewModel } from "../viewModel/BookCardViewModel";
-import { KeywordSearchProvider } from "../provider/keywordSearchProvider";
+import { useRouter } from "next/navigation";
 
 export default function BookDetailContents({ isbnCode }: { isbnCode: string }) {
   const { data, isLoading, error } = useBookInventory(isbnCode);
   const [contents, setContents] = useState<BookCardViewModel[] | undefined>([]);
+  const router = useRouter();
 
   return (
-    <KeywordSearchProvider>
-      <SearchBar setContents={setContents} />
+    <>
+      <SearchBar
+        setContents={setContents}
+        onClickSearchFuncOption={() => router.push("/")}
+      />
       <LoadingWrapper isLoading={isLoading}>
         {/* TODO: 検索窓 */}
         {error ? (
@@ -35,7 +39,7 @@ export default function BookDetailContents({ isbnCode }: { isbnCode: string }) {
           </>
         )}
       </LoadingWrapper>
-    </KeywordSearchProvider>
+    </>
   );
 }
 
