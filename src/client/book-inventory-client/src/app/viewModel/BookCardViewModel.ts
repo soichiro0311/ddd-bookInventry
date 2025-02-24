@@ -12,9 +12,6 @@ export class BookCardViewModel {
   }
 
   static fromApiResponse(apiResponse: Book) {
-    if (apiResponse == null) {
-      return undefined;
-    }
     return new BookCardViewModel(
       apiResponse.title,
       apiResponse.isbnCode,

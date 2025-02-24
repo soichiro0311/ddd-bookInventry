@@ -1,4 +1,5 @@
 import { ContentsArea } from "./ContentsArea";
+import { KeywordSearchProvider } from "./provider/keywordSearchProvider";
 
 export default function Home() {
   return (

@@ -7,9 +7,11 @@ export const convert = (books: Book[]) => {
   if (books == null || books.length === 0) {
     return [];
   }
-  return books.map((bookResponse) =>
-    BookCardViewModel.fromApiResponse(bookResponse)
-  );
+  return books
+    .filter((bookResponse) => bookResponse != null)
+    .map((bookResponse) => {
+      return BookCardViewModel.fromApiResponse(bookResponse);
+    });
 };
 
 export const convertInventory = (bookInventory: BookInventory) => {

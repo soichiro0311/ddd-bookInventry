@@ -17,6 +17,20 @@ export function BookCard({
       <div className="flex-1">
         <BookIcon fontSize="large" className={"w-[120px] h-[120px]"} />
       </div>
+      <BookDetailInfoArea book={book} onClickFunc={onClickFunc} />
+    </div>
+  );
+}
+
+function BookDetailInfoArea({
+  book,
+  onClickFunc,
+}: {
+  book: BookCardViewModel;
+  onClickFunc?: () => void;
+}) {
+  if (onClickFunc) {
+    return (
       <button className="flex-1 flex" onClick={onClickFunc}>
         <div className=" flex flex-col h-full justify-start">
           <div className="flex-1 text-lg">{book.title}</div>
@@ -24,6 +38,16 @@ export function BookCard({
           <div className="text-sm">{book.isbnCode}</div>
         </div>
       </button>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="flex-1 flex" onClick={onClickFunc}>
+        <div className=" flex flex-col h-full justify-start">
+          <div className="flex-1 text-lg">{book.title}</div>
+          <div className="text-sm">{book.price()}</div>
+          <div className="text-sm">{book.isbnCode}</div>
+        </div>
+      </div>
+    );
+  }
 }
