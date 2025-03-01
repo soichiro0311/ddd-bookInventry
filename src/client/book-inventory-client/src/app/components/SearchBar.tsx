@@ -41,7 +41,7 @@ export function SearchBar({
         <InputBase
           {...register("keyword")}
           sx={{ ml: 1, flex: 1 }}
-          placeholder="タイトル、ISBNコード"
+          placeholder="タイトル"
           inputProps={{ "aria-label": "search keyword" }}
         />
         <IconButton type="submit" sx={{ flex: 0 }} aria-label="search">

@@ -4,13 +4,16 @@ import { setupServer } from "msw/node";
 import { delay, http, HttpResponse } from "msw";
 import { mutate, SWRConfig, useSWRConfig } from "swr";
 import * as navigation from "next/navigation";
+import { KeywordSearchProvider } from "../provider/keywordSearchProvider";
 
 jest.mock("next/navigation");
 
 function TestComponent() {
   return (
     <SWRConfig value={{ provider: () => new Map() }}>
-      <Home />
+      <KeywordSearchProvider>
+        <Home />
+      </KeywordSearchProvider>
     </SWRConfig>
   );
 }

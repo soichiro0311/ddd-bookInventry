@@ -4,7 +4,6 @@ import {
   convertInventory,
 } from "../api/converter/searchKeywordConverter";
 import useSWR from "swr";
-import { BookCardViewModel } from "../viewModel/BookCardViewModel";
 import { commonFetcher } from "../shared/api/Fethcer";
 
 export function useSearchKeyword() {

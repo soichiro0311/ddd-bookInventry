@@ -2,18 +2,33 @@ import { render, waitFor, screen } from "@testing-library/react";
 import { delay, http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import { SWRConfig } from "swr";
-import BookDetail from "../page";
 import BookDetailContents from "../ContentsArea";
+import * as navigation from "next/navigation";
+import {
+  KeywordSearchProvider,
+  useKeywordSearchContext,
+} from "../../provider/keywordSearchProvider";
+import userEvent from "@testing-library/user-event";
 
-function TestComponent() {
-  return (
-    <SWRConfig value={{ provider: () => new Map() }}>
-      <BookDetailContents isbnCode={"1234567890"} />
-    </SWRConfig>
-  );
-}
+const TEST_TITLE = "テスト書籍";
+
+jest.mock("next/navigation");
 
 describe("UI Stack", () => {
+  function TestComponent() {
+    return (
+      <SWRConfig value={{ provider: () => new Map() }}>
+        <KeywordSearchProvider>
+          <>
+            <BookDetailContents isbnCode={"1234567890"} />
+          </>
+        </KeywordSearchProvider>
+      </SWRConfig>
+    );
+  }
+  (navigation.useRouter as jest.Mock).mockImplementation(() => ({
+    push: jest.fn(),
+  }));
   const server = setupServer(/* TODO: デフォルトのハンドラーを追加 */);
   beforeAll(() => {
     server.listen();
@@ -85,6 +100,66 @@ describe("UI Stack", () => {
   });
 });
 
+describe("画面遷移時の振る舞い", () => {
+  function TestComponent() {
+    return (
+      <SWRConfig value={{ provider: () => new Map() }}>
+        <KeywordSearchProvider>
+          <>
+            <BookDetailContents isbnCode={"1234567890"} />
+            <AssertComponent />
+          </>
+        </KeywordSearchProvider>
+      </SWRConfig>
+    );
+  }
+
+  function AssertComponent() {
+    const { keyword } = useKeywordSearchContext();
+    return <p>{keyword}</p>;
+  }
+  const server = setupServer(/* TODO: デフォルトのハンドラーを追加 */);
+  beforeAll(() => {
+    server.listen();
+    (navigation.useRouter as jest.Mock).mockImplementation(() => ({
+      push: jest.fn(),
+    }));
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  afterAll(() => {
+    server.close();
+  });
+
+  test("在庫管理ページでキーワード検索をしすると、ホームに戻り、キーワード検索が実施されていること", async () => {
+    server.use(
+      http.get("http://localhost:8080/bookInventory", async () => {
+        return HttpResponse.json(bookInventoryInfo);
+      })
+    );
+    server.use(
+      http.get("http://localhost:8080/book", async ({ request }) => {
+        const url = new URL(request.url);
+
+        const title = url.searchParams.get("title");
+        if (title === TEST_TITLE) {
+          return HttpResponse.json(testTitleHitContents);
+        }
+      })
+    );
+    render(<TestComponent />);
+    const searchForm = screen.getByPlaceholderText("タイトル");
+    await userEvent.type(searchForm, TEST_TITLE);
+    const searchFormSendButton = screen.getByRole("button", { name: "search" });
+    await userEvent.click(searchFormSendButton);
+
+    await waitFor(() =>
+      expect(screen.queryByText(TEST_TITLE)).toBeInTheDocument()
+    );
+  });
+});
+
 const bookInventoryInfo = {
   bookInfo: {
     title: "世界一優しい技術書",
@@ -121,3 +196,11 @@ const bookInventoryInfoWithNoInventory = {
   },
   inventoryInfo: [],
 };
+
+const testTitleHitContents = [
+  {
+    title: "テスト書籍ガイド",
+    price: 1200,
+    isbnCode: "TESTTEST",
+  },
+];
