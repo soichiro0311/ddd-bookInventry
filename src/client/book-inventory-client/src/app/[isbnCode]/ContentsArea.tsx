@@ -23,22 +23,26 @@ export default function BookDetailContents({ isbnCode }: { isbnCode: string }) {
         setContents={setContents}
         onClickSearchFuncOption={() => router.push("/")}
       />
-      <LoadingWrapper isLoading={isLoading}>
-        {/* TODO: 検索窓 */}
-        {error ? (
-          <ErrorDisplay />
-        ) : (
-          <>
-            <BookCard book={data?.bookInfo} />
-            <Divider className="pt-2" />
-            {data?.isSupportedOfflineStore() ? (
-              <InventoryCardList inventoryInfo={data.inventoryInfo} />
-            ) : (
-              <NotSupportOfflineState />
-            )}
-          </>
-        )}
-      </LoadingWrapper>
+      <div className={"p-2"}>
+        <LoadingWrapper isLoading={isLoading}>
+          {/* TODO: 検索窓 */}
+          {error ? (
+            <ErrorDisplay />
+          ) : (
+            <>
+              <div className={"pt-1"}>
+                <BookCard book={data?.bookInfo} />
+              </div>
+              <Divider className="pt-2" />
+              {data?.isSupportedOfflineStore() ? (
+                <InventoryCardList inventoryInfo={data.inventoryInfo} />
+              ) : (
+                <NotSupportOfflineState />
+              )}
+            </>
+          )}
+        </LoadingWrapper>
+      </div>
     </>
   );
 }

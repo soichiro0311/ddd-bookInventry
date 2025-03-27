@@ -10,9 +10,10 @@ import { default as cn } from "clsx";
 import { BookCard } from "./components/BookCard";
 import { useRouter } from "next/navigation";
 import { ErrorDisplay } from "./components/ErrorDisplay";
-import { useViewModelHome } from "./hooks/ViewModelHome";
+
 import { useKeywordSearchContext } from "./provider/keywordSearchProvider";
 import { convert } from "./api/converter/searchKeywordConverter";
+import { useViewModelHome } from "./hooks/viewModelHome";
 
 export function ContentsArea() {
   const { data, isLoading, error } = useBooks();
